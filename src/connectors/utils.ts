@@ -26,7 +26,10 @@ export const createClause = {
                 ? `upper(${field})${relationship}"${value.toUpperCase()}"`
                 : ''
         )[0],
-    withNumberValue: (obj: { [key: string]: number }, relationship = '=') =>
+    withNumberValue: (
+        obj: { [key: string]: number | undefined },
+        relationship = '='
+    ) =>
         Object.entries(obj).map(([field, value]) =>
             Number(value) >= 0 ? `${field}${relationship}${value}` : ''
         )[0],
@@ -35,7 +38,9 @@ export const createClause = {
 export const reduceQuery = (query: TQuery): string =>
     Object.entries(query)
         .map(([queryKeyword, queryContent]) =>
-            queryContent ? `$${queryKeyword}=${queryContent}` : ''
+            queryContent
+                ? `$${queryKeyword}=${encodeURIComponent(queryContent)}`
+                : ''
         )
         .filter((str) => !!str)
         .join('&');

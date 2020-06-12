@@ -115,11 +115,13 @@ describe('Connectors', () => {
                 props = {
                     documentId: 'documentId',
                     name: 'name',
-                    addressLineOne: 'line 1',
-                    addressLineTwo: 'line 2',
-                    city: 'city',
-                    state: 'denial',
-                    zipCode: '12345',
+                    address: {
+                        addressLineOne: 'line 1',
+                        addressLineTwo: 'line 2',
+                        city: 'city',
+                        state: 'denial',
+                        zipCode: '12345',
+                    },
                 };
             });
 
@@ -146,7 +148,7 @@ describe('Connectors', () => {
 
             it('calls stringifyClauses with empty strings for falsey inputs', async () => {
                 props.name = undefined;
-                props.addressLineOne = '';
+                props.address.addressLineOne = '';
 
                 await Party.getParties(props);
 

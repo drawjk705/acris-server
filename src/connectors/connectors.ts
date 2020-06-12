@@ -122,13 +122,11 @@ export const HousingMaintenanceCodeViolation = {
         violationStatus,
         apartment,
         story,
-    }: getHousingMaintenanceCodeViolationsProps) => {
-        console.log(inspectionDateAfter);
-
+    }: Partial<getHousingMaintenanceCodeViolationsProps>) => {
         const query = stringifyClauses(
             [
                 createClause.withNumberValue({
-                    boroid: BOROUGHS_BY_NAME[borough],
+                    boroid: borough ? BOROUGHS_BY_NAME[borough] : undefined,
                 }),
                 createClause.withNumberValue({ block }),
                 createClause.withNumberValue({ lot }),
