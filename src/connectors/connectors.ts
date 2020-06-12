@@ -1,5 +1,5 @@
-import { BOROUGHS_BY_NAME } from '../../reducers/constants';
-import { stringifyClauses, submitQuery } from '../utils';
+import { BOROUGHS_BY_NAME } from '../reducers/constants';
+import { stringifyClauses, submitQuery } from './utils';
 import { RESOURCES } from './constants';
 
 const propertyTypeCache: { [key: string]: string } = {};
@@ -77,7 +77,7 @@ export const Party = {
                 city ? `city="${city}"` : '',
                 state ? `state="${state}"` : '',
                 zipCode ? `zip="${zipCode}"` : '',
-                documentId ? `documentId="${documentId}` : '',
+                documentId ? `document_id="${documentId}"` : '',
             ],
             'and'
         );

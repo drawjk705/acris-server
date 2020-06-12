@@ -1,15 +1,12 @@
 import { IResolvers } from 'graphql-tools';
-import { reduceProperty, reducePropertyType } from '../reducers/property';
-import { reduceDocument } from '../reducers/document';
 import { TProperty, TDocument, TParty, AcrisType } from '../reducers/types';
-import { reduceParty } from '../reducers/party';
-import { reduceHousingMaintenanceCodeViolation } from '../reducers/housingMaintenanceCodeViolation';
 import {
     Property,
     Party,
     HousingMaintenanceCodeViolation,
     Document,
-} from '../connectors/acris/acrisConnectors';
+} from '../connectors/connectors';
+import { Reducers } from '../reducers/reducers';
 
 const maybeReduceFirst = (
     list: Array<object>,
@@ -30,12 +27,12 @@ export const resolvers: IResolvers = {
                 lot,
             });
 
-            return properties.map(reduceProperty);
+            return properties.map(Reducers.reduceProperty);
         },
 
         document: async (_: any, { documentId }) => {
             const document = await Document.getDocumentById(documentId);
-            return maybeReduceFirst(document, reduceDocument);
+            return maybeReduceFirst(document, Reducers.reduceDocument);
         },
 
         parties: async (
@@ -50,7 +47,7 @@ export const resolvers: IResolvers = {
                 state,
                 zipCode,
             });
-            return parties.map(reduceParty);
+            return parties.map(Reducers.reduceParty);
         },
 
         housingMaintenanceCodeViolations: async (
@@ -60,28 +57,32 @@ export const resolvers: IResolvers = {
             const violations = await HousingMaintenanceCodeViolation.getHousingMaintenanceCodeViolations(
                 { borough, block, lot }
             );
-            return violations.map(reduceHousingMaintenanceCodeViolation);
+            return violations.map(
+                Reducers.reduceHousingMaintenanceCodeViolation
+            );
         },
     },
 
     Property: {
         propertyType: async (property: TProperty) => {
             const propertyType = await Property.getPropertyTypeData(property);
-            return reducePropertyType(propertyType);
+            return Reducers.reducePropertyType(propertyType);
         },
 
         document: async (property: TProperty) => {
             const document = await Document.getDocumentById(
                 property.documentId
             );
-            return maybeReduceFirst(document, reduceDocument);
+            return maybeReduceFirst(document, Reducers.reduceDocument);
         },
 
         housingMaintenanceCodeViolations: async (property: TProperty) => {
             const violations = await HousingMaintenanceCodeViolation.getHousingMaintenanceCodeViolations(
                 property
             );
-            return violations.map(reduceHousingMaintenanceCodeViolation);
+            return violations.map(
+                Reducers.reduceHousingMaintenanceCodeViolation
+            );
         },
     },
 
@@ -99,14 +100,14 @@ export const resolvers: IResolvers = {
                 state,
                 zipCode,
             });
-            return parties.map(reduceParty);
+            return parties.map(Reducers.reduceParty);
         },
     },
 
     Party: {
         document: async (party: TParty) => {
             const document = await Document.getDocumentById(party.documentId);
-            return maybeReduceFirst(document, reduceDocument);
+            return maybeReduceFirst(document, Reducers.reduceDocument);
         },
     },
 };

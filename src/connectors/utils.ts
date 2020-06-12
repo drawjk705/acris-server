@@ -1,5 +1,5 @@
-import { TQuery } from './acris/types';
-import { get } from './acris/api/get';
+import { TQuery } from './types';
+import { get } from './api/get';
 
 export const submitQuery = (resource: string, query: TQuery) => {
     const queryStringified = reduceQuery(query);

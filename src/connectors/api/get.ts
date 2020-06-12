@@ -1,5 +1,5 @@
 import fetch from 'node-fetch';
-import { socrataAppToken } from '../../..';
+import { socrataAppToken } from '../..';
 
 const baseUrl = 'https://data.cityofnewyork.us/resource';
 
