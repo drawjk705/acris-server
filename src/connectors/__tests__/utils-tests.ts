@@ -1,4 +1,4 @@
-import { stringifyClauses, reduceQuery } from '../utils';
+import { stringifyClauses, reduceQuery, ClauseSeparator } from '../utils';
 
 describe('utils', () => {
     describe('reduceQuery', () => {
@@ -30,7 +30,7 @@ describe('utils', () => {
     describe('stringifyClauses', () => {
         it('connects each clause with separator', () => {
             const clauses = ['clause a', 'clause b', 'clause c'];
-            const separator = 'and';
+            const separator = ClauseSeparator.AND;
 
             const result = stringifyClauses(clauses, separator);
 
@@ -39,7 +39,7 @@ describe('utils', () => {
 
         it('ignores falsey clauses', () => {
             const clauses = ['clause a', '', 'clause b'];
-            const separator = 'and';
+            const separator = ClauseSeparator.AND;
 
             const result = stringifyClauses(clauses, separator);
 
@@ -48,7 +48,7 @@ describe('utils', () => {
 
         it('does not apply separator to single-clause list', () => {
             const singleClauseList = ['clause a'];
-            const separator = 'and';
+            const separator = ClauseSeparator.AND;
 
             const result = stringifyClauses(singleClauseList, separator);
 

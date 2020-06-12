@@ -1,8 +1,8 @@
-export enum QueryKeyword {
-    select = 'select',
-    where = 'where',
+export enum QueryAction {
+    SELECT = 'select',
+    WHERE = 'where',
 }
 
 export type TQuery = {
-    [QK in QueryKeyword]?: string;
+    [QK in QueryAction]?: string;
 };

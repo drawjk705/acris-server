@@ -1,6 +1,7 @@
 import { gql } from 'apollo-server';
 
 export const typeDefs = gql`
+    # QUERY
     type Query {
         property(
             streetName: String
@@ -14,10 +15,13 @@ export const typeDefs = gql`
         ): [HousingMaintenanceCodeViolation]!
     }
 
+    # OBJECTS
+
     """
     https://dev.socrata.com/foundry/data.cityofnewyork.us/8h5j-fqxa
     """
     type Property {
+        registrationId: Int!
         borough: Borough!
         block: Int!
         lot: Int!
@@ -26,7 +30,15 @@ export const typeDefs = gql`
         streetName: String
         unit: String
         document: Document
-        housingMaintenanceCodeViolations: [HousingMaintenanceCodeViolation]!
+        housingMaintenanceCodeViolations(
+            orderNumber: String
+            inspectionDateBetween: DateRange
+            currentStatus: ViolationCurrentStatus
+            violationStatus: ViolationStatus
+            apartment: String
+            story: String
+        ): [HousingMaintenanceCodeViolation]!
+        hpdJurisdictionData: HpdJurisdictionData
     }
 
     """
@@ -39,11 +51,42 @@ export const typeDefs = gql`
     }
 
     """
+    https://dev.socrata.com/foundry/data.cityofnewyork.us/kj4p-ruqc
+    """
+    type HpdJurisdictionData {
+        registrationId: Int!
+        buildingId: Int
+        communityBoardId: Int
+        managementProgram: String
+        numberOfLegalStories: Int
+        numberOfApartments: Int
+        numberOfRooms: Int
+        lifecycleStage: String
+        recordStatusId: Int
+        recordStatus: HpdJurisdictionRecordStatus
+        registrationContacts: [RegistrationContacts]!
+    }
+
+    """
+    https://dev.socrata.com/foundry/data.cityofnewyork.us/feu5-w2e2
+    """
+    type RegistrationContacts {
+        type: String
+        contactDescription: String
+        corporationName: String
+        title: String
+        firstName: String
+        middleInitial: String
+        lastName: String
+        businessAddress: Address
+    }
+
+    """
     https://dev.socrata.com/foundry/data.cityofnewyork.us/bnx9-e6tj
     """
     type Document {
-        id: String
-        CRFN: String
+        id: ID!
+        crfn: String
         type: String
         date: String
         amount: String
@@ -82,9 +125,9 @@ export const typeDefs = gql`
         orderNumber: String
         novDescription: String
         novIssuedDate: String
-        currentStatus: String
+        currentStatus: ViolationCurrentStatus
         communityBoard: String
-        violationStatus: String
+        violationStatus: ViolationStatus
     }
 
     # INPUTS
@@ -102,6 +145,11 @@ export const typeDefs = gql`
         lot: Int!
     }
 
+    input DateRange {
+        from: String
+        to: String
+    }
+
     # ENUMS
     enum Borough {
         manhattan
@@ -109,5 +157,39 @@ export const typeDefs = gql`
         brooklyn
         queens
         statenIsland
+    }
+
+    enum ViolationCurrentStatus {
+        CERTIFICATION_POSTPONMENT_DENIED
+        CERTIFICATION_POSTPONMENT_GRANTED
+        CIV14_MAILED
+        COMPLIED_IN_ACCESS_AREA
+        DEFECT_LETTER_ISSUED
+        FALSE_CERTIFICATION
+        FIRST_NO_ACCESS_TO_RE_INSPECT_VIOLATION
+        INFO_NOV_SENT_OUT
+        INVALID_CERTIFICATION
+        NOT_COMPLIED_WITH
+        NOTICE_OF_ISSUANCE_SENT_TO_TENANT
+        NOV_CERTIFIED_LATE
+        NOV_CERTIFIED_ON_TIME
+        NOV_SENT_OUT
+        SECOND_NO_ACCESS_TO_RE_INSPECT_VIOLATION
+        VIOLATION_CLOSED
+        VIOLATION_DISMISSED
+        VIOLATION_OPEN
+        VIOLATION_REOPEN
+        VIOLATION_WILL_BE_REINSPECTED
+    }
+
+    enum ViolationStatus {
+        Open
+        Close
+    }
+
+    enum HpdJurisdictionRecordStatus {
+        Active
+        Inactive
+        Pending
     }
 `;

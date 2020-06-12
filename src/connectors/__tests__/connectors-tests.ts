@@ -6,7 +6,10 @@ import {
     Party,
     Document,
     HousingMaintenanceCodeViolation,
+    HpdJurisdictionData,
+    RegistrationContacts,
 } from '../connectors';
+import { Borough } from '../../reducers/constants';
 
 jest.mock('../api/get');
 mocked(get);
@@ -39,8 +42,8 @@ describe('Connectors', () => {
 
                 expect(stringifyClausesSpy).toHaveBeenCalledWith(
                     [
-                        'street_number="123"',
-                        'street_name="Penny Lane"',
+                        'upper(street_number)="123"',
+                        'upper(street_name)="PENNY LANE"',
                         'borough=1',
                         'block=1',
                         'lot=2',
@@ -82,7 +85,7 @@ describe('Connectors', () => {
                 await Property.getPropertyTypeData(props);
 
                 expect(submitQuerySpy).toHaveBeenCalledWith('94g4-w6xz', {
-                    where: 'property_type="propertyType"',
+                    where: 'upper(property_type)="PROPERTYTYPE"',
                 });
             });
 
@@ -125,13 +128,13 @@ describe('Connectors', () => {
 
                 expect(stringifyClausesSpy).toHaveBeenCalledWith(
                     [
-                        'name="name"',
-                        'address_1="line 1"',
-                        'address_2="line 2"',
-                        'city="city"',
-                        'state="denial"',
-                        'zip="12345"',
-                        'document_id="documentId"',
+                        'upper(name)="NAME"',
+                        'upper(address_1)="LINE 1"',
+                        'upper(address_2)="LINE 2"',
+                        'upper(city)="CITY"',
+                        'upper(state)="DENIAL"',
+                        'upper(zip)="12345"',
+                        'upper(document_id)="DOCUMENTID"',
                     ],
                     'and'
                 );
@@ -151,11 +154,11 @@ describe('Connectors', () => {
                     [
                         '',
                         '',
-                        'address_2="line 2"',
-                        'city="city"',
-                        'state="denial"',
-                        'zip="12345"',
-                        'document_id="documentId"',
+                        'upper(address_2)="LINE 2"',
+                        'upper(city)="CITY"',
+                        'upper(state)="DENIAL"',
+                        'upper(zip)="12345"',
+                        'upper(document_id)="DOCUMENTID"',
                     ],
                     'and'
                 );
@@ -169,7 +172,7 @@ describe('Connectors', () => {
                 await Document.getDocumentById('documentId');
 
                 expect(submitQuerySpy).toHaveBeenCalledWith('bnx9-e6tj', {
-                    where: 'document_id="documentId"',
+                    where: 'upper(document_id)="DOCUMENTID"',
                 });
             });
         });
@@ -179,11 +182,41 @@ describe('Connectors', () => {
         describe('getHousingMaintenanceCodeViolations', () => {
             it('calls submit query with correct values', async () => {
                 await HousingMaintenanceCodeViolation.getHousingMaintenanceCodeViolations(
-                    { borough: 'manhattan', block: 1, lot: 1 }
+                    { borough: Borough.MANHATTAN, block: 1, lot: 1 }
                 );
 
                 expect(submitQuerySpy).toHaveBeenCalledWith('wvxf-dwi5', {
                     where: 'boroid=1 and block=1 and lot=1',
+                });
+            });
+        });
+    });
+
+    describe('HPD Jurisdiction Data', () => {
+        describe('getHpdJurisdictionData', () => {
+            it('calls submit query with correct values', async () => {
+                await HpdJurisdictionData.getHpdJurisdictionData({
+                    borough: Borough.MANHATTAN,
+                    block: 1,
+                    lot: 2,
+                });
+
+                expect(submitQuerySpy).toHaveBeenLastCalledWith('kj4p-ruqc', {
+                    where: 'boroid=1 and block=1 and lot=2',
+                });
+            });
+        });
+    });
+
+    describe('Registration Contacts', () => {
+        describe('getRegistrationContacts', () => {
+            it('calls submit query with correct values', async () => {
+                await RegistrationContacts.getRegistrationContacts({
+                    registrationId: 12123,
+                });
+
+                expect(submitQuerySpy).toHaveBeenCalledWith('feu5-w2e2', {
+                    where: 'registrationid=12123',
                 });
             });
         });

@@ -4,4 +4,8 @@ export const RESOURCES = {
     RealPropertyMaster: 'bnx9-e6tj',
     RealPropertyParties: '636b-3b5g',
     HousingMaintenanceCodeViolation: 'wvxf-dwi5',
+    // MultipleDwellingRegistrations: 'tesw-yqqr',
+    BuildingsSubjectToHpdJurisdiction: 'kj4p-ruqc',
+    RegistrationContacts: 'feu5-w2e2',
+    PropertyValuationAndAssessmentData: '8y4t-faws',
 };
