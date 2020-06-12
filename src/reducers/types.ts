@@ -80,11 +80,6 @@ export type TAddress = {
     zipCode: string;
 };
 
-export type TDateBetween = {
-    from: string;
-    to: string;
-};
-
 export enum ViolationCurrentStatus {
     CERTIFICATION_POSTPONMENT_DENIED = 'CERTIFICATION POSTPONMENT DENIED',
     CERTIFICATION_POSTPONMENT_GRANTED = 'CERTIFICATION POSTPONMENT GRANTED',

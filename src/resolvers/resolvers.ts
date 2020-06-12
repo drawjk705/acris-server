@@ -16,6 +16,7 @@ import {
     RegistrationContacts,
 } from '../connectors/connectors';
 import { Reducers } from '../reducers/reducers';
+import { GraphQLScalarType, Kind } from 'graphql';
 
 const maybeReduceFirst = (
     list: Array<object>,
@@ -87,7 +88,6 @@ export const resolvers: IResolvers = {
         },
 
         housingMaintenanceCodeViolations: async (property: TProperty, args) => {
-            console.log({ args });
             const violations = await HousingMaintenanceCodeViolation.getHousingMaintenanceCodeViolations(
                 { ...property, ...args }
             );

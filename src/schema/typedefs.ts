@@ -32,7 +32,8 @@ export const typeDefs = gql`
         document: Document
         housingMaintenanceCodeViolations(
             orderNumber: String
-            inspectionDateBetween: DateRange
+            inspectionDateBefore: Date
+            inspectionDateAfter: Date
             currentStatus: ViolationCurrentStatus
             violationStatus: ViolationStatus
             apartment: String
@@ -88,7 +89,7 @@ export const typeDefs = gql`
         id: ID!
         crfn: String
         type: String
-        date: String
+        date: Date
         amount: String
         parties(name: String, address: AddressInput): [Party!]
     }
@@ -145,11 +146,6 @@ export const typeDefs = gql`
         lot: Int!
     }
 
-    input DateRange {
-        from: String
-        to: String
-    }
-
     # ENUMS
     enum Borough {
         manhattan
@@ -192,4 +188,7 @@ export const typeDefs = gql`
         Inactive
         Pending
     }
+
+    # scalars
+    scalar Date
 `;

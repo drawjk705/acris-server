@@ -8,7 +8,6 @@ import {
 import { RESOURCES } from './constants';
 import {
     TAddress,
-    TDateBetween,
     ViolationCurrentStatus,
     ViolationStatus,
 } from '../reducers/types';
@@ -104,7 +103,8 @@ export const Party = {
 
 type getHousingMaintenanceCodeViolationsProps = {
     orderNumber: string;
-    inspectionDateBetween: TDateBetween;
+    inspectionDateBefore: Date | undefined;
+    inspectionDateAfter: Date | undefined;
     currentStatus: ViolationCurrentStatus;
     violationStatus: ViolationStatus;
     apartment: string;
@@ -116,12 +116,15 @@ export const HousingMaintenanceCodeViolation = {
         block,
         lot,
         orderNumber,
-        inspectionDateBetween,
+        inspectionDateBefore,
+        inspectionDateAfter,
         currentStatus,
         violationStatus,
         apartment,
         story,
     }: getHousingMaintenanceCodeViolationsProps) => {
+        console.log(inspectionDateAfter);
+
         const query = stringifyClauses(
             [
                 createClause.withNumberValue({
@@ -136,6 +139,14 @@ export const HousingMaintenanceCodeViolation = {
                 }),
                 createClause.withStringValue({ apartment }),
                 createClause.withStringValue({ story }),
+                createClause.withStringValue(
+                    { inspectiondate: inspectionDateBefore?.toUTCString() },
+                    '<'
+                ),
+                createClause.withStringValue(
+                    { inspectiondate: inspectionDateAfter?.toUTCString() },
+                    '>'
+                ),
             ],
             ClauseSeparator.AND
         );
