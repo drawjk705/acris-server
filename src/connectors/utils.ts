@@ -1,26 +1,22 @@
-import fetch from 'node-fetch';
-import { socrataAppToken } from '..';
 import { TQuery } from './acris/types';
-
-const baseUrl = 'https://data.cityofnewyork.us/resource';
-
-export const get = async (endpoint: string) => {
-    return fetch(`${baseUrl}/${endpoint}`, {
-        method: 'GET',
-        headers: { 'X-App-Token': socrataAppToken },
-    }).then((res) => res.json());
-};
+import { get } from './acris/api/get';
 
 export const submitQuery = (resource: string, query: TQuery) => {
     const queryStringified = reduceQuery(query);
     return get(`${resource}.json?${queryStringified}`);
 };
 
+export const stringifyClauses = (
+    clauses: Array<string>,
+    separator: string
+): string => clauses.filter((clause) => !!clause).join(` ${separator} `);
+
 export const reduceQuery = (query: TQuery): string =>
-    Object.entries(query).reduce(
-        (str, [queryKeyword, queryContent]) =>
+    Object.entries(query)
+        .map(([queryKeyword, queryContent]) =>
             queryContent
-                ? `${str}&$${queryKeyword}=${encodeURIComponent(queryContent)}`
-                : str,
-        ''
-    );
+                ? `$${queryKeyword}=${encodeURIComponent(queryContent)}`
+                : ''
+        )
+        .filter((str) => !!str)
+        .join('&');

@@ -1,15 +1,15 @@
-export const BOROUGHS_BY_NAME = {
-    Manhattan: 1,
-    Bronx: 2,
-    Brooklyn: 3,
-    Queens: 4,
-    StatenIsland: 5,
+export const BOROUGHS_BY_NAME: { [key: string]: number } = {
+    manhattan: 1,
+    bronx: 2,
+    brooklyn: 3,
+    queens: 4,
+    statenIsland: 5,
 };
 
 export const BOROUGHS_BY_ID: { [key: number]: string } = {
-    1: 'Manhattan',
-    2: 'Bronx',
-    3: 'Brooklyn',
-    4: 'Queens',
-    5: 'StatenIsland',
+    1: 'manhattan',
+    2: 'bronx',
+    3: 'brooklyn',
+    4: 'queens',
+    5: 'statenIsland',
 };

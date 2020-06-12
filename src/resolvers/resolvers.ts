@@ -1,36 +1,66 @@
 import { IResolvers } from 'graphql-tools';
-import { Property } from '../connectors/acris/property';
-import {
-    reduceProperty,
-    reducePropertyType,
-    TProperty,
-} from '../reducers/property';
-import { Document } from '../connectors/acris/document';
+import { reduceProperty, reducePropertyType } from '../reducers/property';
 import { reduceDocument } from '../reducers/document';
+import { TProperty, TDocument, TParty, AcrisType } from '../reducers/types';
+import { reduceParty } from '../reducers/party';
+import { reduceHousingMaintenanceCodeViolation } from '../reducers/housingMaintenanceCodeViolation';
+import {
+    Property,
+    Party,
+    HousingMaintenanceCodeViolation,
+    Document,
+} from '../connectors/acris/acrisConnectors';
 
-type propertyQueryProps = { streetNumber: string; streetName: string };
-type documentQueryProps = { documentId: string };
+const maybeReduceFirst = (
+    list: Array<object>,
+    reducer: (obj: object) => AcrisType
+) => (list.length > 0 ? reducer(list[0]) : {});
+
 export const resolvers: IResolvers = {
     Query: {
         property: async (
             _: any,
-            { streetNumber, streetName }: propertyQueryProps
+            { streetNumber, streetName, borough, block, lot }
         ) => {
-            const properties = await Property.getPropertyByName(
+            const properties = await Property.getProperty({
                 streetNumber,
-                streetName
-            );
+                streetName,
+                borough,
+                block,
+                lot,
+            });
 
             return properties.map(reduceProperty);
         },
 
-        document: async (_: any, { documentId }: documentQueryProps) => {
+        document: async (_: any, { documentId }) => {
             const document = await Document.getDocumentById(documentId);
+            return maybeReduceFirst(document, reduceDocument);
+        },
 
-            if (!document.length) {
-                return {};
-            }
-            return reduceDocument(document[0]);
+        parties: async (
+            _: any,
+            { name, addressLineOne, addressLineTwo, city, state, zipCode }
+        ) => {
+            const parties = await Party.getParties({
+                name,
+                addressLineOne,
+                addressLineTwo,
+                city,
+                state,
+                zipCode,
+            });
+            return parties.map(reduceParty);
+        },
+
+        housingMaintenanceCodeViolations: async (
+            _: any,
+            { borough, block, lot }
+        ) => {
+            const violations = await HousingMaintenanceCodeViolation.getHousingMaintenanceCodeViolations(
+                { borough, block, lot }
+            );
+            return violations.map(reduceHousingMaintenanceCodeViolation);
         },
     },
 
@@ -44,7 +74,39 @@ export const resolvers: IResolvers = {
             const document = await Document.getDocumentById(
                 property.documentId
             );
-            return reduceDocument(document[0]);
+            return maybeReduceFirst(document, reduceDocument);
+        },
+
+        housingMaintenanceCodeViolations: async (property: TProperty) => {
+            const violations = await HousingMaintenanceCodeViolation.getHousingMaintenanceCodeViolations(
+                property
+            );
+            return violations.map(reduceHousingMaintenanceCodeViolation);
+        },
+    },
+
+    Document: {
+        parties: async (
+            document: TDocument,
+            { name, addressLineOne, addressLineTwo, city, state, zipCode }
+        ) => {
+            const parties = await Party.getParties({
+                documentId: document.id,
+                name,
+                addressLineOne,
+                addressLineTwo,
+                city,
+                state,
+                zipCode,
+            });
+            return parties.map(reduceParty);
+        },
+    },
+
+    Party: {
+        document: async (party: TParty) => {
+            const document = await Document.getDocumentById(party.documentId);
+            return maybeReduceFirst(document, reduceDocument);
         },
     },
 };

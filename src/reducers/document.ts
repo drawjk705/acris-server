@@ -1,12 +1,6 @@
-export type Document = {
-    id: string;
-    CRFN: string;
-    type: string;
-    date: string;
-    amount: string;
-};
+import { TDocument } from './types';
 
-export const reduceDocument = (documentObj: any): Document => ({
+export const reduceDocument = (documentObj: any): TDocument => ({
     id: documentObj.document_id,
     CRFN: documentObj.crfn,
     type: documentObj.doc_type,
