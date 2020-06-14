@@ -1,9 +1,9 @@
-import { BOROUGHS_BY_NAME, Borough } from '../reducers/constants';
+import { Borough } from '../reducers/constants';
 import {
-    stringifyClauses,
     submitQuery,
-    createClause,
     ClauseSeparator,
+    ClauseRelationship,
+    createClause,
 } from './utils';
 import { RESOURCES } from './constants';
 import {
@@ -33,18 +33,15 @@ export const Property = {
         block,
         lot,
     }: getPropertyProps) => {
-        const query = stringifyClauses(
-            [
-                createClause.withStringValue({ street_number: streetNumber }),
-                createClause.withStringValue({ street_name: streetName }),
-                createClause.withNumberValue({
-                    borough: BOROUGHS_BY_NAME[borough],
-                }),
-                createClause.withNumberValue({ block }),
-                createClause.withNumberValue({ lot }),
-            ],
-            ClauseSeparator.AND
-        );
+        const query = createClause()
+            .addStringSubclause({
+                street_number: streetNumber,
+            })
+            .addStringSubclause({ street_name: streetName })
+            .addNumberSubclause({ borough })
+            .addNumberSubclause({ block })
+            .addNumberSubclause({ lot })
+            .stringifyClauses(ClauseSeparator.AND);
 
         return submitQuery(RESOURCES.RealPropertyLegals, {
             where: query,
@@ -55,9 +52,11 @@ export const Property = {
         if (propertyTypeCache[propertyType]) {
             return propertyTypeCache[propertyType];
         }
-        const query = createClause.withStringValue({
-            property_type: propertyType,
-        });
+        const query = createClause()
+            .addStringSubclause({
+                property_type: propertyType,
+            })
+            .stringifyClauses();
 
         const result = await submitQuery(RESOURCES.PropertyTypeCodes, {
             where: query,
@@ -82,18 +81,15 @@ export const Party = {
         name,
         address: { addressLineOne, addressLineTwo, city, state, zipCode } = {},
     }: Partial<getPartiesProps>) => {
-        const query = stringifyClauses(
-            [
-                createClause.withStringValue({ name }),
-                createClause.withStringValue({ address_1: addressLineOne }),
-                createClause.withStringValue({ address_2: addressLineTwo }),
-                createClause.withStringValue({ city }),
-                createClause.withStringValue({ state }),
-                createClause.withStringValue({ zip: zipCode }),
-                createClause.withStringValue({ document_id: documentId }),
-            ],
-            ClauseSeparator.AND
-        );
+        const query = createClause()
+            .addStringSubclause({ name })
+            .addStringSubclause({ address_1: addressLineOne })
+            .addStringSubclause({ address_2: addressLineTwo })
+            .addStringSubclause({ city })
+            .addStringSubclause({ state })
+            .addStringSubclause({ zip: zipCode })
+            .addStringSubclause({ document_id: documentId })
+            .stringifyClauses(ClauseSeparator.AND);
 
         return submitQuery(RESOURCES.RealPropertyParties, {
             where: query,
@@ -123,31 +119,31 @@ export const HousingMaintenanceCodeViolation = {
         apartment,
         story,
     }: Partial<getHousingMaintenanceCodeViolationsProps>) => {
-        const query = stringifyClauses(
-            [
-                createClause.withNumberValue({
-                    boroid: borough ? BOROUGHS_BY_NAME[borough] : undefined,
-                }),
-                createClause.withNumberValue({ block }),
-                createClause.withNumberValue({ lot }),
-                createClause.withStringValue({ ordernumber: orderNumber }),
-                createClause.withStringValue({ currentstatus: currentStatus }),
-                createClause.withStringValue({
-                    violationstatus: violationStatus,
-                }),
-                createClause.withStringValue({ apartment }),
-                createClause.withStringValue({ story }),
-                createClause.withStringValue(
-                    { inspectiondate: inspectionDateBefore?.toUTCString() },
-                    '<'
-                ),
-                createClause.withStringValue(
-                    { inspectiondate: inspectionDateAfter?.toUTCString() },
-                    '>'
-                ),
-            ],
-            ClauseSeparator.AND
-        );
+        const query = createClause()
+            .addNumberSubclause({
+                boroid: borough,
+            })
+            .addNumberSubclause({ block })
+            .addNumberSubclause({ lot })
+            .addStringSubclause({ ordernumber: orderNumber })
+            .addStringSubclause({ currentstatus: currentStatus })
+            .addStringSubclause({
+                violationstatus: violationStatus,
+            })
+            .addStringSubclause({ apartment })
+            .addStringSubclause({ story })
+            .addDateSubclause(
+                { inspectiondate: inspectionDateBefore },
+                { relationship: ClauseRelationship.LESS_THAN }
+            )
+            .addDateSubclause(
+                {
+                    inspectiondate: inspectionDateAfter,
+                },
+                { relationship: ClauseRelationship.GREATER_THAN }
+            )
+            .stringifyClauses(ClauseSeparator.AND);
+
         return submitQuery(RESOURCES.HousingMaintenanceCodeViolation, {
             where: query,
         });
@@ -156,7 +152,9 @@ export const HousingMaintenanceCodeViolation = {
 
 export const Document = {
     getDocumentById: async (id: string) => {
-        const query = createClause.withStringValue({ document_id: id });
+        const query = createClause()
+            .addStringSubclause({ document_id: id })
+            .stringifyClauses();
 
         return submitQuery(RESOURCES.RealPropertyMaster, {
             where: query,
@@ -169,17 +167,14 @@ export const HpdJurisdictionData = {
         borough,
         block,
         lot,
-    }: BoroughBlockLotProps) => {
-        const query = stringifyClauses(
-            [
-                createClause.withNumberValue({
-                    boroid: BOROUGHS_BY_NAME[borough],
-                }),
-                createClause.withNumberValue({ block }),
-                createClause.withNumberValue({ lot }),
-            ],
-            ClauseSeparator.AND
-        );
+    }: Partial<BoroughBlockLotProps>) => {
+        const query = createClause()
+            .addNumberSubclause({
+                boroid: borough,
+            })
+            .addNumberSubclause({ block })
+            .addNumberSubclause({ lot })
+            .stringifyClauses(ClauseSeparator.AND);
 
         return submitQuery(RESOURCES.BuildingsSubjectToHpdJurisdiction, {
             where: query,
@@ -194,9 +189,9 @@ export const RegistrationContacts = {
     getRegistrationContacts: async ({
         registrationId,
     }: getRegistrationContactsProps) => {
-        const query = createClause.withNumberValue({
-            registrationid: registrationId,
-        });
+        const query = createClause()
+            .addNumberSubclause({ registrationid: registrationId })
+            .stringifyClauses();
 
         return submitQuery(RESOURCES.RegistrationContacts, { where: query });
     },

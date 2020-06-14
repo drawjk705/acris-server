@@ -1,4 +1,5 @@
 import { IResolvers } from 'graphql-tools';
+import { DateTimeResolver } from 'graphql-scalars';
 import {
     TProperty,
     TDocument,
@@ -16,7 +17,7 @@ import {
     RegistrationContacts,
 } from '../connectors/connectors';
 import { Reducers } from '../reducers/reducers';
-import { GraphQLScalarType, Kind } from 'graphql';
+import { Borough } from '../reducers/constants';
 
 const maybeReduceFirst = (
     list: Array<object>,
@@ -27,14 +28,12 @@ export const resolvers: IResolvers = {
     Query: {
         property: async (
             _: any,
-            { streetNumber, streetName, borough, block, lot }
+            { streetNumber, streetName, boroughBlockLot }
         ) => {
             const properties = await Property.getProperty({
                 streetNumber,
                 streetName,
-                borough,
-                block,
-                lot,
+                ...boroughBlockLot,
             });
 
             return properties.map(Reducers.reduceProperty);
@@ -57,6 +56,7 @@ export const resolvers: IResolvers = {
             const violations = await HousingMaintenanceCodeViolation.getHousingMaintenanceCodeViolations(
                 args
             );
+
             return violations.map(
                 Reducers.reduceHousingMaintenanceCodeViolation
             );
@@ -137,6 +137,16 @@ export const resolvers: IResolvers = {
 
             return contactsData.map(Reducers.reduceRegistrationContact);
         },
+    },
+
+    DateTime: DateTimeResolver,
+
+    Borough: {
+        MANHATTAN: Borough.MANHATTAN,
+        BRONX: Borough.BRONX,
+        BROOKLYN: Borough.BROOKLYN,
+        QUEENS: Borough.QUEENS,
+        STATEN_ISLAND: Borough.STATEN_ISLAND,
     },
 
     ViolationCurrentStatus: {

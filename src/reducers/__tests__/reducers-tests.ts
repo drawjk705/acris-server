@@ -9,7 +9,7 @@ describe('Reducers', () => {
             expect(property).toMatchInlineSnapshot(`
         Object {
           "block": "1960",
-          "borough": "brooklyn",
+          "borough": 3,
           "documentId": "2020050400791001",
           "lot": "38",
           "propertyType": "AP",
@@ -110,7 +110,7 @@ describe('Reducers', () => {
         Object {
           "businessAddress": Object {
             "addressLineOne": "312 W 109TH ST",
-            "addressLineTwo": "Apartment undefined",
+            "addressLineTwo": "Apartment 102",
             "city": "NEW YORK",
             "state": "NY",
             "zipCode": "10025",

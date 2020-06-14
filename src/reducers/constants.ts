@@ -1,9 +1,9 @@
 export enum Borough {
-    MANHATTAN = 'manhattan',
-    BRONX = 'bronx',
-    BROOKLYN = 'brooklyn',
-    QUEENS = 'queens',
-    STATEN_ISLAND = 'statenIsland',
+    MANHATTAN = 1,
+    BRONX = 2,
+    BROOKLYN = 3,
+    QUEENS = 4,
+    STATEN_ISLAND = 5,
 }
 
 export const BOROUGHS_BY_NAME: { [key in Borough]: number } = {

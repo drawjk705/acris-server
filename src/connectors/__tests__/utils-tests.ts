@@ -1,4 +1,4 @@
-import { stringifyClauses, reduceQuery, ClauseSeparator } from '../utils';
+import { reduceQuery, ClauseSeparator, createClause } from '../utils';
 
 describe('utils', () => {
     describe('reduceQuery', () => {
@@ -27,32 +27,79 @@ describe('utils', () => {
         });
     });
 
-    describe('stringifyClauses', () => {
-        it('connects each clause with separator', () => {
-            const clauses = ['clause a', 'clause b', 'clause c'];
-            const separator = ClauseSeparator.AND;
+    describe('createClause', () => {
+        it('assembles clause correctly', () => {
+            const clause = createClause()
+                .addNumberSubclause({ age: 19 })
+                .addStringSubclause({ firstName: 'Bob' })
+                .addStringSubclause({ lastName: 'Loblaw' })
+                .addNumberSubclause({ shoeSize: 9 })
+                .stringifyClauses();
 
-            const result = stringifyClauses(clauses, separator);
-
-            expect(result).toBe('clause a and clause b and clause c');
+            expect(clause).toBe(
+                'age=19 and upper(firstName)="BOB" and upper(lastName)="LOBLAW" and shoeSize=9'
+            );
         });
 
-        it('ignores falsey clauses', () => {
-            const clauses = ['clause a', '', 'clause b'];
-            const separator = ClauseSeparator.AND;
+        it('can create discrete clauses on repeat uses', () => {
+            const clauseA = createClause()
+                .addNumberSubclause({ age: 19 })
+                .addStringSubclause({ firstName: 'Bob' })
+                .addStringSubclause({ lastName: 'Loblaw' })
+                .addNumberSubclause({ shoeSize: 9 })
+                .stringifyClauses();
+            const clauseB = createClause()
+                .addNumberSubclause({ age: 20 })
+                .addStringSubclause({ firstName: 'Bobert' })
+                .addStringSubclause({ middleInitial: 'G' })
+                .addStringSubclause({ lastName: 'Loblawless' })
+                .addNumberSubclause({ shoeSize: 19 })
+                .stringifyClauses();
 
-            const result = stringifyClauses(clauses, separator);
-
-            expect(result).toBe('clause a and clause b');
+            expect(clauseA).toBe(
+                'age=19 and upper(firstName)="BOB" and upper(lastName)="LOBLAW" and shoeSize=9'
+            );
+            expect(clauseB).toBe(
+                'age=20 and upper(firstName)="BOBERT" and upper(middleInitial)="G" and upper(lastName)="LOBLAWLESS" and shoeSize=19'
+            );
         });
 
-        it('does not apply separator to single-clause list', () => {
-            const singleClauseList = ['clause a'];
-            const separator = ClauseSeparator.AND;
+        it('stringifies single clause correctly', () => {
+            const clause = createClause()
+                .addNumberSubclause({ age: 20 })
+                .stringifyClauses();
 
-            const result = stringifyClauses(singleClauseList, separator);
+            expect(clause).toBe('age=20');
+        });
 
-            expect(result).toBe('clause a');
+        it('omits falsey inputs', () => {
+            const clause = createClause()
+                .addStringSubclause({ firstName: '' })
+                .addStringSubclause({ lastName: undefined })
+                .addNumberSubclause({ age: undefined })
+                .addNumberSubclause({ shoeSize: 9 })
+                .addNumberSubclause({ iq: 0 })
+                .stringifyClauses();
+
+            expect(clause).toBe('shoeSize=9 and iq=0');
+        });
+
+        it('handles dates correctly', () => {
+            const clause = createClause()
+                .addDateSubclause({
+                    birthday: new Date('2020-01-01T00:00:00.000Z'),
+                })
+                .addDateSubclause(
+                    {
+                        anniversary: new Date('2020-01-01T00:00:00.000Z'),
+                    },
+                    { withTime: true }
+                )
+                .stringifyClauses();
+
+            expect(clause).toBe(
+                'date_trunc_ymd(birthday)="2020-01-01" and anniversary="2020-01-01T00:00:00.000"'
+            );
         });
     });
 });

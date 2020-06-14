@@ -32,8 +32,8 @@ export const typeDefs = gql`
         document: Document
         housingMaintenanceCodeViolations(
             orderNumber: String
-            inspectionDateBefore: Date
-            inspectionDateAfter: Date
+            inspectionDateBefore: DateTime
+            inspectionDateAfter: DateTime
             currentStatus: ViolationCurrentStatus
             violationStatus: ViolationStatus
             apartment: String
@@ -89,7 +89,7 @@ export const typeDefs = gql`
         id: ID!
         crfn: String
         type: String
-        date: Date
+        date: DateTime
         amount: String
         parties(name: String, address: AddressInput): [Party!]
     }
@@ -119,13 +119,13 @@ export const typeDefs = gql`
         apartment: String
         story: String
         inspectionDate: String
-        originalCertifyByDate: String
-        originalCorrectByDate: String
-        newCertifyByDate: String
-        newCorrectByDate: String
+        originalCertifyByDate: DateTime
+        originalCorrectByDate: DateTime
+        newCertifyByDate: DateTime
+        newCorrectByDate: DateTime
         orderNumber: String
         novDescription: String
-        novIssuedDate: String
+        novIssuedDate: DateTime
         currentStatus: ViolationCurrentStatus
         communityBoard: String
         violationStatus: ViolationStatus
@@ -148,11 +148,11 @@ export const typeDefs = gql`
 
     # ENUMS
     enum Borough {
-        manhattan
-        bronx
-        brooklyn
-        queens
-        statenIsland
+        MANHATTAN
+        BRONX
+        BROOKLYN
+        QUEENS
+        STATEN_ISLAND
     }
 
     enum ViolationCurrentStatus {
@@ -190,5 +190,5 @@ export const typeDefs = gql`
     }
 
     # scalars
-    scalar Date
+    scalar DateTime
 `;

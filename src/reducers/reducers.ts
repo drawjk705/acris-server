@@ -93,7 +93,7 @@ export const Reducers = {
         businessAddress: {
             addressLineOne: `${contactObj.businesshousenumber} ${contactObj.businessstreetname}`,
             addressLineTwo: contactObj.businessapartment
-                ? `Apartment ${contactObj.businessapartmentnumber}`
+                ? `Apartment ${contactObj.businessapartment}`
                 : '',
             city: contactObj.businesscity,
             state: contactObj.businessstate,
