@@ -9,71 +9,151 @@ export const submitQuery = (resource: string, query: TQuery) => {
 export enum ClauseSeparator {
     AND = 'and',
     COMMA = 'comma',
+    OR = 'or',
 }
 
-type AddSubclauseObjProps<T> = {
-    [key: string]: T | undefined;
+type AddSubclauseObjProps = {
+    [key: string]: string | number | Date | undefined;
 };
 
-export const createClause = (existingClauses = '') => {
-    const clauses: [string | undefined] = [existingClauses];
+enum SubclauseDataType {
+    scalar = 'scalar',
+    string = 'string',
+    number = 'number',
+    date = 'date',
+    dateTime = 'dateTime',
+}
+
+const clauseTransformers: {
+    field: {
+        [dt in SubclauseDataType]: (
+            field: string,
+            value?: number | string | Date
+        ) => string;
+    };
+    value: {
+        [dt in SubclauseDataType]: (
+            input?: string | number | Date
+        ) => string | undefined;
+    };
+} = {
+    field: {
+        [SubclauseDataType.scalar]: (field, value) => {
+            if (typeof value === 'string') {
+                return `upper(${field})`;
+            } else if (typeof value === 'number') {
+                return field;
+            }
+            return '';
+        },
+        [SubclauseDataType.string]: (field) => `upper(${field})`,
+        [SubclauseDataType.number]: (field) => field,
+        [SubclauseDataType.date]: (field) => `date_trunc_ymd(${field})`,
+        [SubclauseDataType.dateTime]: (field) => field,
+    },
+    value: {
+        [SubclauseDataType.scalar]: (value) => {
+            if (typeof value === 'number') {
+                return Number(value) >= 0 ? `${value}` : undefined;
+            } else if (typeof value === 'string') {
+                return value
+                    ? `"${(value as string).toUpperCase()}"`
+                    : undefined;
+            }
+            return undefined;
+        },
+        [SubclauseDataType.string]: (value) =>
+            value ? `"${(value as string).toUpperCase()}"` : undefined,
+
+        [SubclauseDataType.number]: (value) =>
+            Number(value) >= 0 ? `${value}` : undefined,
+
+        [SubclauseDataType.date]: (value) =>
+            value
+                ? `"${(value as Date).toISOString().replace(/T.*$/, '')}"`
+                : undefined,
+        [SubclauseDataType.dateTime]: (value) =>
+            value
+                ? `"${(value as Date).toISOString().replace(/Z$/, '')}"`
+                : undefined,
+    },
+};
+
+export const createClause = (existingClauses: Array<string> = []) => {
+    const newClauses: Array<string | undefined> = [];
+
+    const addSubclause = (
+        obj: AddSubclauseObjProps,
+        type: SubclauseDataType,
+        relationship = ClauseRelationship.EQUAL
+    ) => {
+        newClauses.push(
+            Object.entries(obj).map(([field, value]) => {
+                const fieldTransformed = clauseTransformers.field[type](
+                    field,
+                    value
+                );
+                const valueTransformed = clauseTransformers.value[type](value);
+
+                return valueTransformed !== undefined
+                    ? `${fieldTransformed}${relationship}${valueTransformed}`
+                    : '';
+            })[0]
+        );
+
+        return clauseCreator;
+    };
 
     const clauseCreator = {
-        addStringSubclause: (
-            obj: AddSubclauseObjProps<string>,
+        addScalarSubclause: (
+            obj: { [key: string]: string | number | undefined },
             relationship = ClauseRelationship.EQUAL
-        ) => {
-            clauses.push(
-                Object.entries(obj).map(([field, value]) =>
-                    value
-                        ? `upper(${field})${relationship}"${value.toUpperCase()}"`
-                        : ''
-                )[0]
-            );
+        ) => addSubclause(obj, SubclauseDataType.scalar, relationship),
 
-            return clauseCreator;
-        },
+        addStringSubclause: (
+            obj: { [key: string]: string | undefined },
+            relationship = ClauseRelationship.EQUAL
+        ) => addSubclause(obj, SubclauseDataType.string, relationship),
 
         addNumberSubclause: (
-            obj: AddSubclauseObjProps<number>,
+            obj: { [key: string]: number | undefined },
             relationship = ClauseRelationship.EQUAL
-        ) => {
-            clauses.push(
-                Object.entries(obj).map(([field, value]) =>
-                    Number(value) >= 0 ? `${field}${relationship}${value}` : ''
-                )[0]
-            );
-
-            return clauseCreator;
-        },
+        ) => addSubclause(obj, SubclauseDataType.number, relationship),
 
         addDateSubclause: (
-            obj: AddSubclauseObjProps<Date>,
-            { withTime = false, relationship = ClauseRelationship.EQUAL } = {}
-        ) => {
-            clauses.push(
-                Object.entries(obj).map(([field, value]) => {
-                    if (!value) {
-                        return '';
-                    }
+            obj: { [key: string]: Date | undefined },
+            relationship = ClauseRelationship.EQUAL
+        ) => addSubclause(obj, SubclauseDataType.date, relationship),
 
-                    const fieldWithOrWithoutTime = withTime
-                        ? field
-                        : `date_trunc_ymd(${field})`;
+        addDateTimeSubclause: (
+            obj: { [key: string]: Date | undefined },
+            relationship = ClauseRelationship.EQUAL
+        ) => addSubclause(obj, SubclauseDataType.dateTime, relationship),
 
-                    const valueWithOrWithoutTime = withTime
-                        ? value.toISOString().replace(/Z$/, '')
-                        : value.toISOString().replace(/T.*$/, '');
+        stringifyClauses: ({
+            separator = ClauseSeparator.AND,
+            withParentheses = false,
+        } = {}) => {
+            const filteredExistingClauses = existingClauses
+                .filter((clause) => !!clause)
+                .map((clause) => (withParentheses ? `(${clause})` : clause));
 
-                    return `${fieldWithOrWithoutTime}${relationship}"${valueWithOrWithoutTime}"`;
-                })[0]
+            const filteredNewClauses = newClauses
+                .filter((clause) => !!clause)
+                .join(` ${separator} `);
+
+            const filteredNewClausesToAdd = filteredNewClauses.length
+                ? filteredNewClauses
+                : [];
+
+            const clausesAllTogether = filteredExistingClauses.concat(
+                withParentheses && filteredNewClausesToAdd.length
+                    ? `(${filteredNewClausesToAdd})`
+                    : filteredNewClausesToAdd
             );
 
-            return clauseCreator;
+            return clausesAllTogether.join(` ${separator} `);
         },
-
-        stringifyClauses: (separator = ClauseSeparator.AND) =>
-            clauses.filter((clause) => !!clause).join(` ${separator} `),
     };
 
     return clauseCreator;

@@ -22,6 +22,7 @@ export const typeDefs = gql`
     """
     type Property {
         registrationId: Int!
+        bble: ID!
         borough: Borough!
         block: Int!
         lot: Int!
@@ -40,6 +41,8 @@ export const typeDefs = gql`
             story: String
         ): [HousingMaintenanceCodeViolation]!
         hpdJurisdictionData: HpdJurisdictionData
+        valuationAndAssessmentData: [ValuationAndAssessmentData]!
+        taxClassData: [TaxClassData]!
     }
 
     """
@@ -80,6 +83,91 @@ export const typeDefs = gql`
         middleInitial: String
         lastName: String
         businessAddress: Address
+    }
+
+    """
+    https://dev.socrata.com/foundry/data.cityofnewyork.us/yjxr-fw8i
+    """
+    type ValuationAndAssessmentData {
+        numberOfStories: Int
+        marketValue: Int
+        actualLandValue: Int
+        actualTotalValue: Int
+        actualExemptLandValue: Int
+        actualExemptLandTotal: Int
+        exceptionCodeOne: Int
+        transitionalLandValue: Int
+        transitionalTotalValue: Int
+        transitionalExemptionLandValue: Int
+        transitionalExemptionLandTotal: Int
+        assessmentYear: String
+    }
+
+    """
+    https://dev.socrata.com/foundry/data.cityofnewyork.us/8y4t-faws
+    """
+    type TaxClassData {
+        assessmentAndExemptionValuations: AssessmentAndExemptionValuations
+        zoningCode: String
+        dimensions: Dimensions
+        hasExtension: Boolean
+        storyCount: Int
+        unitCount: Int
+        coopApartmentCount: Int
+        coopIdNumber: Int
+        buildingConstructionYear: String
+    }
+
+    type Dimensions {
+        lotFrontageFeet: Int
+        lotDepthFeet: Int
+        buildingFrontageFeet: Int
+        buildingDepthFeet: Int
+        totalLandAreaFeet: Int
+        grossSquarefootage: Int
+        hotelAreaGrossSquarefootage: Int
+        officeAreaGrossSquarefootage: Int
+        residentialAreaGrossSquarefootage: Int
+        retailAreaGrossSquarefootage: Int
+        loftAreaGrossSquarefootage: Int
+        factoryAreaGrossSquarefootage: Int
+        warehouseAreaGrossSquarefootage: Int
+        storageAreaGrossSquarefootage: Int
+        garageAreaGrossSquarefootage: Int
+        otherAreaGrossSquarefootage: Int
+    }
+
+    type AssessmentAndExemptionValuations {
+        market: AssessmentAndExemptionValuation
+        actual: AssessmentAndExemptionValuation
+        transitional: AssessmentAndExemptionValuation
+        taxable: AssessmentAndExemptionValuation
+        tentativeMarket: AssessmentAndExemptionValuation
+        tentativeActual: AssessmentAndExemptionValuation
+        tentativeTransitional: AssessmentAndExemptionValuation
+        tentativeTaxable: AssessmentAndExemptionValuation
+        changeByNoticeMarket: AssessmentAndExemptionValuation
+        changeByNoticeActual: AssessmentAndExemptionValuation
+        changeByNoticeTransitional: AssessmentAndExemptionValuation
+        changeByNoticeTaxable: AssessmentAndExemptionValuation
+        finalMarket: AssessmentAndExemptionValuation
+        finalActual: AssessmentAndExemptionValuation
+        finalTransitional: AssessmentAndExemptionValuation
+        finalTaxable: AssessmentAndExemptionValuation
+        currentMarket: AssessmentAndExemptionValuation
+        currentActual: AssessmentAndExemptionValuation
+        currentTransitional: AssessmentAndExemptionValuation
+        currentTaxable: AssessmentAndExemptionValuation
+    }
+
+    type AssessmentAndExemptionValuation {
+        assessment: Valuation
+        exemption: Valuation
+    }
+
+    type Valuation {
+        landValue: Int
+        totalValue: Int
     }
 
     """

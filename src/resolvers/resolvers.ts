@@ -15,6 +15,8 @@ import {
     Document,
     HpdJurisdictionData,
     RegistrationContacts,
+    ValuationAndAssessmentData,
+    TaxClassData,
 } from '../connectors/connectors';
 import { Reducers } from '../reducers/reducers';
 import { Borough } from '../reducers/constants';
@@ -105,6 +107,26 @@ export const resolvers: IResolvers = {
                 jurisdictionData,
                 Reducers.reduceHpdJurisdictionData
             );
+        },
+
+        valuationAndAssessmentData: async (property: TProperty) => {
+            const valuationAndAssessmentData = await ValuationAndAssessmentData.getValuationAndAssessmentData(
+                property
+            );
+
+            return valuationAndAssessmentData.map(
+                Reducers.reduceValuationAndAssessmentData
+            );
+        },
+
+        taxClassData: async (property: TProperty) => {
+            const taxClassData = await TaxClassData.getTaxClassData(property);
+
+            console.log({ taxClassData });
+
+            const res = taxClassData.map(Reducers.reduceTaxClassData);
+            console.log({ res });
+            return res;
         },
     },
 

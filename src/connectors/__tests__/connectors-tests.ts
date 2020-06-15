@@ -8,6 +8,8 @@ import {
     HousingMaintenanceCodeViolation,
     HpdJurisdictionData,
     RegistrationContacts,
+    ValuationAndAssessmentData,
+    TaxClassData,
 } from '../connectors';
 import { Borough } from '../../reducers/constants';
 
@@ -160,6 +162,40 @@ describe('Connectors', () => {
 
                 expect(submitQuerySpy).toHaveBeenCalledWith('feu5-w2e2', {
                     where: 'registrationid=12123',
+                });
+            });
+        });
+    });
+
+    describe('Property Valuation and Assessment Data', () => {
+        describe('getValuationAndAssessmentData', () => {
+            it('calls submit query with correct values', async () => {
+                await ValuationAndAssessmentData.getValuationAndAssessmentData({
+                    bble: '1000010001',
+                    borough: 1,
+                    block: 1,
+                    lot: 1,
+                });
+
+                expect(submitQuerySpy).toHaveBeenCalledWith('yjxr-fw8i', {
+                    where:
+                        '(upper(bble)="1000010001") or (boro=1 and block=1 and lot=1)',
+                });
+            });
+        });
+    });
+
+    describe('Tax Class Data', () => {
+        describe('getTaxClassData', () => {
+            it('calls submit query with correct values', async () => {
+                await TaxClassData.getTaxClassData({
+                    borough: 1,
+                    block: 1,
+                    lot: 1,
+                });
+
+                expect(submitQuerySpy).toHaveBeenCalledWith('8y4t-faws', {
+                    where: 'boro=1 and block=1 and lot=1',
                 });
             });
         });

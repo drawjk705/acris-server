@@ -7,5 +7,6 @@ export const RESOURCES = {
     // MultipleDwellingRegistrations: 'tesw-yqqr',
     BuildingsSubjectToHpdJurisdiction: 'kj4p-ruqc',
     RegistrationContacts: 'feu5-w2e2',
-    PropertyValuationAndAssessmentData: '8y4t-faws',
+    PropertyValuationAndAssessmentData: 'yjxr-fw8i',
+    PropertyTaxClassData: '8y4t-faws',
 };

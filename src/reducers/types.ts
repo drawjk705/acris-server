@@ -2,6 +2,7 @@ import { Borough } from './constants';
 export type TDocumentId = string;
 
 export type TProperty = {
+    bble: string;
     borough: Borough;
     block: number;
     lot: number;
@@ -72,6 +73,81 @@ export type TRegistrationContact = {
     businessAddress: TAddress;
 };
 
+export type TValuationAndAssessmentData = {
+    numberOfStories: number;
+    marketValue: number;
+    actualLandValue: number;
+    actualTotalValue: number;
+    actualExemptLandValue: number;
+    actualExemptLandTotal: number;
+    exceptionCodeOne: number;
+    transitionalLandValue: number;
+    transitionalTotalValue: number;
+    transitionalExemptionLandValue: number;
+    transitionalExemptionLandTotal: number;
+    assessmentYear: string;
+};
+
+export type TTaxClassData = {
+    zoningCode: string;
+    dimensions: {
+        lotFrontageFeet: number;
+        lotDepthFeet: number;
+        buildingFrontageFeet: number;
+        buildingDepth: number;
+        totalLandArea: number;
+        grossSquarefootage: number;
+        hotelAreaGrossSquarefootage: number;
+        officeAreaGrossSquarefootage: number;
+        residentialAreaGrossSquarefootage: number;
+        retailAreaGrossSquarefootage: number;
+        loftAreaGrossSquarefootage: number;
+        factoryAreaGrossSquarefootage: number;
+        warehouseAreaGrossSquarefootage: number;
+        storageAreaGrossSquarefootage: number;
+        garageAreaGrossSquarefootage: number;
+        otherAreaGrossSquarefootage: number;
+    };
+    hasExtension: boolean;
+    storyCount: number;
+    unitCount: number;
+    coopApartmentCount: number;
+    coopIdNumber: number;
+    buildingConstructionYear: number;
+    assessmentAndExemptionValuations: {
+        market?: AssessmentAndExemptionValuations;
+        actual?: AssessmentAndExemptionValuations;
+        transitional?: AssessmentAndExemptionValuations;
+        taxable?: AssessmentAndExemptionValuations;
+        tentativeMarket?: AssessmentAndExemptionValuations;
+        tentativeActual?: AssessmentAndExemptionValuations;
+        tentativeTransitional?: AssessmentAndExemptionValuations;
+        tentativeTaxable?: AssessmentAndExemptionValuations;
+        changeByNoticeMarket?: AssessmentAndExemptionValuations;
+        changeByNoticeActual?: AssessmentAndExemptionValuations;
+        changeByNoticeTransitional?: AssessmentAndExemptionValuations;
+        changeByNoticeTaxable?: AssessmentAndExemptionValuations;
+        finalMarket?: AssessmentAndExemptionValuations;
+        finalActual?: AssessmentAndExemptionValuations;
+        finalTransitional?: AssessmentAndExemptionValuations;
+        finalTaxable?: AssessmentAndExemptionValuations;
+        currentMarket?: AssessmentAndExemptionValuations;
+        currentActual?: AssessmentAndExemptionValuations;
+        currentTransitional?: AssessmentAndExemptionValuations;
+        currentTaxable?: AssessmentAndExemptionValuations;
+    };
+};
+
+export type AssessmentAndExemptionValuations = {
+    assessment?: Valuation;
+    exemption?: Valuation;
+};
+
+export type Valuation = {
+    landValue?: number;
+    totalValue?: number;
+};
+
 export type TAddress = {
     addressLineOne: string;
     addressLineTwo: string;
@@ -121,4 +197,6 @@ export type AcrisType =
     | TParty
     | THousingMaintenanceCodeViolation
     | THpdJurisdictionData
-    | TRegistrationContact;
+    | TRegistrationContact
+    | TValuationAndAssessmentData
+    | TTaxClassData;
