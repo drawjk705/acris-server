@@ -1,0 +1,294 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Reducers reduceDocument reduces correctly 1`] = `
+Object {
+  "amount": "485000.00",
+  "crfn": "2020000144847",
+  "date": "2020-04-10T00:00:00.000",
+  "id": "2020050800759005",
+  "type": "AGMT",
+}
+`;
+
+exports[`Reducers reduceHousingMaintenanceCodeViolation reduces correctly 1`] = `
+Object {
+  "apartment": undefined,
+  "communityBoard": "1",
+  "currentStatus": "VIOLATION DISMISSED",
+  "inspectionDate": "1997-04-11T00:00:00.000",
+  "newCertifyByDate": undefined,
+  "newCorrectByDate": undefined,
+  "novDescription": "SECTION 27-2098 ADM CODE  FILE WITH THIS DEPARTMENT A REGISTRATION STATEMENT FOR BUILDING.",
+  "novIssuedDate": "1997-04-22T00:00:00.000",
+  "orderNumber": "772",
+  "originalCertifyByDate": "1997-08-15T00:00:00.000",
+  "originalCorrectByDate": "1997-08-08T00:00:00.000",
+  "story": "All Stories",
+  "violationStatus": "Close",
+}
+`;
+
+exports[`Reducers reduceHpdJurisdictionData reduces correctly 1`] = `
+Object {
+  "buildingId": 859129,
+  "communityBoardId": 0,
+  "lifecycleStage": "Building",
+  "managementProgram": "PVT",
+  "numberOfApartments": NaN,
+  "numberOfLegalStories": NaN,
+  "numberOfRooms": NaN,
+  "recordStatus": "Inactive",
+  "recordStatusId": 2,
+  "registrationId": 0,
+}
+`;
+
+exports[`Reducers reduceProperty reduces correctly 1`] = `
+Object {
+  "bble": "3019600038",
+  "block": 1960,
+  "borough": 3,
+  "documentId": "2020050400791001",
+  "lot": 38,
+  "propertyType": "AP",
+  "streetName": "CLINTON AVENUE",
+  "streetNumber": "400",
+  "unit": undefined,
+}
+`;
+
+exports[`Reducers reducePropertyType reduces correctly 1`] = `
+Object {
+  "description": "ADJACENT CONDOMINIUM UNIT TO BE COMBINED",
+  "propertyType": "CA",
+  "recordType": "G",
+}
+`;
+
+exports[`Reducers reduceRegistrationContact reduces correctly 1`] = `
+Object {
+  "businessAddress": Object {
+    "addressLineOne": "312 W 109TH ST",
+    "addressLineTwo": "Apartment 102",
+    "city": "NEW YORK",
+    "state": "NY",
+    "zipCode": "10025",
+  },
+  "contactDescription": "CORP",
+  "corporationName": "ACADEMY STUDOS",
+  "firstName": "SVEIN",
+  "lastName": "JORGENSEN",
+  "middleInitial": undefined,
+  "title": undefined,
+  "type": "Agent",
+}
+`;
+
+exports[`Reducers reduceTaxClassData reduces correctly 1`] = `
+Object {
+  "assessmentAndExemptionValuations": Object {
+    "actual": Object {
+      "assessment": Object {
+        "landValue": 387450,
+        "totalValue": 3280500,
+      },
+      "exemption": Object {
+        "landValue": 0,
+      },
+    },
+    "changeByNoticeActual": Object {
+      "assessment": Object {
+        "landValue": 387450,
+        "totalValue": 3398400,
+      },
+      "exemption": Object {
+        "totalValue": 0,
+      },
+    },
+    "changeByNoticeMarket": Object {
+      "assessment": Object {
+        "landValue": 861000,
+        "totalValue": 7552000,
+      },
+    },
+    "changeByNoticeTaxable": Object {
+      "assessment": Object {
+        "totalValue": 2976300,
+      },
+      "exemption": Object {
+        "totalValue": 0,
+      },
+    },
+    "changeByNoticeTransitional": Object {
+      "assessment": Object {
+        "landValue": NaN,
+        "totalValue": 2976300,
+      },
+      "exemption": Object {
+        "totalValue": 0,
+      },
+    },
+    "currentActual": Object {
+      "assessment": Object {
+        "landValue": 387450,
+        "totalValue": 3398400,
+      },
+      "exemption": Object {
+        "totalValue": 0,
+      },
+    },
+    "currentMarket": Object {
+      "assessment": Object {
+        "landValue": 861000,
+        "totalValue": 7552000,
+      },
+    },
+    "currentTaxable": Object {
+      "assessment": Object {
+        "totalValue": 2976300,
+      },
+      "exemption": Object {
+        "totalValue": 0,
+      },
+    },
+    "currentTransitional": Object {
+      "assessment": Object {
+        "landValue": 387450,
+        "totalValue": 2976300,
+      },
+      "exemption": Object {
+        "totalValue": 0,
+      },
+    },
+    "finalActual": Object {
+      "assessment": Object {
+        "landValue": 387450,
+        "totalValue": 3398400,
+      },
+      "exemption": Object {
+        "totalValue": 0,
+      },
+    },
+    "finalMarket": Object {
+      "assessment": Object {
+        "landValue": 861000,
+        "totalValue": 7552000,
+      },
+    },
+    "finalTaxable": Object {
+      "assessment": Object {
+        "totalValue": "2976300",
+      },
+      "exemption": Object {
+        "totalValue": 0,
+      },
+    },
+    "finalTransitional": Object {
+      "assessment": Object {
+        "landValue": 387450,
+        "totalValue": 2976300,
+      },
+      "exemption": Object {
+        "totalValue": 0,
+      },
+    },
+    "market": Object {
+      "assessment": Object {
+        "landValue": 861000,
+        "totalValue": 7290000,
+      },
+    },
+    "taxable": Object {
+      "assessment": Object {
+        "totalValue": 2751620,
+      },
+      "exemption": Object {
+        "totalValue": 0,
+      },
+    },
+    "tentativeActual": Object {
+      "assessment": Object {
+        "landValue": 387450,
+        "totalValue": 3398400,
+      },
+      "exemption": Object {
+        "totalValue": 0,
+      },
+    },
+    "tentativeMarket": Object {
+      "assessment": Object {
+        "landValue": 861000,
+        "totalValue": 7552000,
+      },
+    },
+    "tentativeTaxable": Object {
+      "assessment": Object {
+        "totalValue": 2976300,
+      },
+      "exemption": Object {
+        "totalValue": 0,
+      },
+    },
+    "tentativeTransitional": Object {
+      "assessment": Object {
+        "landValue": 387450,
+        "totalValue": 2976300,
+      },
+      "exemption": Object {
+        "totalValue": 0,
+      },
+    },
+    "transitional": Object {
+      "assessment": Object {
+        "landValue": 387450,
+        "totalValue": 2751620,
+      },
+      "exemption": Object {
+        "totalValue": 0,
+      },
+    },
+  },
+  "buildingConstructionYear": "1900",
+  "coopApartmentCount": NaN,
+  "coopIdNumber": 0,
+  "dimensions": Object {
+    "buildingDepth": 90,
+    "buildingFrontageFeet": 44,
+    "factoryAreaGrossSquarefootage": 0,
+    "garageAreaGrossSquarefootage": 0,
+    "grossSquarefootage": 23760,
+    "hotelAreaGrossSquarefootage": 0,
+    "loftAreaGrossSquarefootage": 0,
+    "lotDepthFeet": 100,
+    "lotFrontageFeet": 44,
+    "officeAreaGrossSquarefootage": 0,
+    "otherAreaGrossSquarefootage": 0,
+    "residentialAreaGrossSquarefootage": 20760,
+    "retailAreaGrossSquarefootage": 3000,
+    "storageAreaGrossSquarefootage": 0,
+    "totalLandArea": 4433,
+    "warehouseAreaGrossSquarefootage": 0,
+  },
+  "hasExtension": false,
+  "storyCount": 6,
+  "unitCount": 26,
+  "zoningCode": "C2-7A",
+}
+`;
+
+exports[`Reducers reduceValuationAndAssessmentData reduces correctly 1`] = `
+Object {
+  "actualExemptLandTotal": 0,
+  "actualExemptLandValue": 0,
+  "actualLandValue": 5563,
+  "actualTotalValue": 6924,
+  "assessmentYear": "2018/19",
+  "exceptionCodeOne": NaN,
+  "marketValue": 229000,
+  "numberOfStories": 0.5,
+  "transitionalExemptionLandTotal": NaN,
+  "transitionalExemptionLandValue": NaN,
+  "transitionalLandValue": NaN,
+  "transitionalTotalValue": NaN,
+}
+`;
