@@ -1,0 +1,38 @@
+{
+    "name": "acris-server",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "start": "npm run build:dev",
+        "build:dev": "nodemon 'src/index.ts' --exec 'ts-node' src/server.ts -e ts,graphql",
+        "test": "jest --no-cache",
+        "publish": "npx apollo service:push --graph=nyc-open-data --key=$APOLLO_GQL_TOKEN --endpoint=http://localhost:4000"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "devDependencies": {
+        "@babel/cli": "^7.10.1",
+        "@babel/core": "^7.10.2",
+        "@babel/node": "^7.10.1",
+        "@babel/preset-env": "^7.10.2",
+        "@types/jest": "^26.0.0",
+        "jest": "^26.0.1",
+        "jest-fetch-mock": "^3.0.3",
+        "nodemon": "^2.0.4",
+        "prettier": "^2.0.5",
+        "ts-jest": "^26.1.0",
+        "typescript": "^3.9.5"
+    },
+    "dependencies": {
+        "@babel/preset-typescript": "^7.10.1",
+        "@types/graphql": "^14.5.0",
+        "apollo-server": "^2.14.3",
+        "dotenv": "^8.2.0",
+        "graphql-scalars": "^1.1.5",
+        "graphql-tools": "^6.0.9",
+        "node-fetch": "^2.6.0",
+        "ts-node": "^8.10.2"        
+    }
+}
