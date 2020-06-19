@@ -21,7 +21,7 @@ export const typeDefs = gql`
     https://dev.socrata.com/foundry/data.cityofnewyork.us/8h5j-fqxa
     """
     type Property {
-        registrationId: Int!
+        registrationId: Int
         bble: ID!
         borough: Borough!
         block: Int!
@@ -58,7 +58,7 @@ export const typeDefs = gql`
     https://dev.socrata.com/foundry/data.cityofnewyork.us/kj4p-ruqc
     """
     type HpdJurisdictionData {
-        registrationId: Int!
+        registrationId: Int
         buildingId: Int
         communityBoardId: Int
         managementProgram: String
@@ -198,6 +198,7 @@ export const typeDefs = gql`
     https://dev.socrata.com/foundry/data.cityofnewyork.us/636b-3b5g
     """
     type Party {
+        partType: String
         documentId: String
         name: String
         address: Address

@@ -279,4 +279,18 @@ export const mocks = {
         party2_type: 'SECURED PARTY',
         party3_type: 'ASSIGNEE',
     },
+
+    party: {
+        document_id: '2018092100197002',
+        record_type: 'P',
+        party_type: '2',
+        name: 'FREEDOM MORTGAGE CORPORATION',
+        address_1: '175 PINELAWN ROAD',
+        address_2: 'SUITE 400',
+        country: 'US',
+        city: 'MELVILLE',
+        state: 'NY',
+        zip: '11747',
+        good_through_date: '2020-05-31T00:00:00.000',
+    },
 };

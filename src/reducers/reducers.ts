@@ -50,6 +50,7 @@ export const Reducers = {
     }),
 
     reduceParty: (partyObj: any = {}): TParty => ({
+        partType: partyObj.party_type,
         documentId: partyObj.document_id,
         name: partyObj.name,
         address: {

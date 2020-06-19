@@ -38,6 +38,14 @@ describe('Reducers', () => {
         });
     });
 
+    describe('reduceParty', () => {
+        it('reduces correctly', () => {
+            const party = Reducers.reduceParty(mocks.party);
+
+            expect(party).toMatchSnapshot();
+        });
+    });
+
     describe('reduceHpdJurisdictionData', () => {
         it('reduces correctly', () => {
             const result = Reducers.reduceHpdJurisdictionData(

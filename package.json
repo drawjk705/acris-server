@@ -7,7 +7,7 @@
         "start": "npm run build:dev",
         "build:dev": "nodemon 'src/index.ts' --exec 'ts-node' src/server.ts -e ts,graphql",
         "test": "jest --no-cache",
-        "publish": "npx apollo service:push --graph=nyc-open-data --key=$APOLLO_GQL_TOKEN --endpoint=http://localhost:4000"
+        "publish": "npx apollo service:push --graph=nyc-open-data --endpoint=http://localhost:4000"
     },
     "keywords": [],
     "author": "",
@@ -33,6 +33,6 @@
         "graphql-scalars": "^1.1.5",
         "graphql-tools": "^6.0.9",
         "node-fetch": "^2.6.0",
-        "ts-node": "^8.10.2"        
+        "ts-node": "^8.10.2"
     }
 }

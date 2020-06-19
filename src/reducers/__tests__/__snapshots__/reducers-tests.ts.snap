@@ -54,6 +54,21 @@ Object {
 }
 `;
 
+exports[`Reducers reduceParty reduces correctly 1`] = `
+Object {
+  "address": Object {
+    "addressLineOne": "175 PINELAWN ROAD",
+    "addressLineTwo": "SUITE 400",
+    "city": "MELVILLE",
+    "state": "NY",
+    "zipCode": "11747",
+  },
+  "documentId": "2018092100197002",
+  "name": "FREEDOM MORTGAGE CORPORATION",
+  "partType": "2",
+}
+`;
+
 exports[`Reducers reduceProperty reduces correctly 1`] = `
 Object {
   "bble": "3019600038",
