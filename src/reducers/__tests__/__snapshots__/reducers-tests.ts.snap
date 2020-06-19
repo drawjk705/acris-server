@@ -10,6 +10,17 @@ Object {
 }
 `;
 
+exports[`Reducers reduceDocumentType reduces correctly 1`] = `
+Object {
+  "classCodeDescription": "UCC AND FEDERAL LIENS",
+  "documentType": "INITIAL COOP UCC1",
+  "partyOneType": "DEBTOR",
+  "partyThreeType": "ASSIGNEE",
+  "partyTwoType": "SECURED PARTY",
+  "typeId": "INIC",
+}
+`;
+
 exports[`Reducers reduceHousingMaintenanceCodeViolation reduces correctly 1`] = `
 Object {
   "apartment": undefined,

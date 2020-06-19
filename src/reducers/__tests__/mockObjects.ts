@@ -269,4 +269,14 @@ export const mocks = {
         fintaxflag: 'T',
         curtaxflag: 'T',
     },
+
+    documentType: {
+        record_type: 'D',
+        doc__type: 'INIC',
+        doc__type_description: 'INITIAL COOP UCC1',
+        class_code_description: 'UCC AND FEDERAL LIENS',
+        party1_type: 'DEBTOR',
+        party2_type: 'SECURED PARTY',
+        party3_type: 'ASSIGNEE',
+    },
 };

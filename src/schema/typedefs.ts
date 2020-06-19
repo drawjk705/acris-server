@@ -176,10 +176,22 @@ export const typeDefs = gql`
     type Document {
         id: ID!
         crfn: String
-        type: String
+        type: DocumentType
         date: DateTime
         amount: String
         parties(name: String, address: AddressInput): [Party!]
+    }
+
+    """
+    https://data.cityofnewyork.us/resource/7isb-wh4c.json
+    """
+    type DocumentType {
+        typeId: ID!
+        documentType: String
+        classCodeDescription: String
+        partyOneType: String
+        partyTwoType: String
+        partyThreeType: String
     }
 
     """

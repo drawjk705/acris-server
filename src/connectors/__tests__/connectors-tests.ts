@@ -10,6 +10,7 @@ import {
     RegistrationContacts,
     ValuationAndAssessmentData,
     TaxClassData,
+    DocumentType,
 } from '../connectors';
 import { Borough } from '../../reducers/constants';
 
@@ -196,6 +197,20 @@ describe('Connectors', () => {
 
                 expect(submitQuerySpy).toHaveBeenCalledWith('8y4t-faws', {
                     where: 'boro=1 and block=1 and lot=1',
+                });
+            });
+        });
+    });
+
+    describe('Document Type', () => {
+        describe('getDocumentType', () => {
+            it('calls submit query with correct values', async () => {
+                await DocumentType.getDocumentType({
+                    type: '12312',
+                });
+
+                expect(submitQuerySpy).toHaveBeenCalledWith('7isb-wh4c', {
+                    where: 'upper(doc__type)="12312"',
                 });
             });
         });

@@ -243,3 +243,15 @@ export const TaxClassData = {
         return submitQuery(RESOURCES.PropertyTaxClassData, { where: query });
     },
 };
+
+export const DocumentType = {
+    getDocumentType: async ({ type }: { type: string }) => {
+        const query = createClause()
+            .addSubclause({
+                doc__type: type,
+            })
+            .stringifyClauses();
+
+        return submitQuery(RESOURCES.DocumentControlCodes, { where: query });
+    },
+};

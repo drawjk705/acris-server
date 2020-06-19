@@ -17,6 +17,7 @@ import {
     RegistrationContacts,
     ValuationAndAssessmentData,
     TaxClassData,
+    DocumentType,
 } from '../connectors/connectors';
 import { Reducers } from '../reducers/reducers';
 import { Borough } from '../reducers/constants';
@@ -135,6 +136,12 @@ export const resolvers: IResolvers = {
             });
 
             return parties.map(Reducers.reduceParty);
+        },
+
+        type: async (document: TDocument) => {
+            const documentType = await DocumentType.getDocumentType(document);
+
+            return maybeReduceFirst(documentType, Reducers.reduceDocumentType);
         },
     },
 

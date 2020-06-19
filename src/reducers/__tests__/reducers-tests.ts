@@ -73,4 +73,12 @@ describe('Reducers', () => {
             expect(result).toMatchSnapshot();
         });
     });
+
+    describe('reduceDocumentType', () => {
+        it('reduces correctly', () => {
+            const result = Reducers.reduceDocumentType(mocks.documentType);
+
+            expect(result).toMatchSnapshot();
+        });
+    });
 });

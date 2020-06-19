@@ -8,6 +8,7 @@ import {
     TRegistrationContact,
     TValuationAndAssessmentData,
     TTaxClassData,
+    TDocumentType,
 } from './types';
 import { BOROUGHS_BY_ID } from './constants';
 
@@ -357,5 +358,14 @@ export const Reducers = {
         coopApartmentCount: Number.parseInt(taxClassDataObj.coop_apt),
         coopIdNumber: Number.parseInt(taxClassDataObj.coop_num),
         buildingConstructionYear: taxClassDataObj.yrbuilt,
+    }),
+
+    reduceDocumentType: (documentTypeObj: any = {}): TDocumentType => ({
+        typeId: documentTypeObj.doc__type,
+        documentType: documentTypeObj.doc__type_description,
+        classCodeDescription: documentTypeObj.class_code_description,
+        partyOneType: documentTypeObj.party1_type,
+        partyTwoType: documentTypeObj.party2_type,
+        partyThreeType: documentTypeObj.party3_type,
     }),
 };

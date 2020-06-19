@@ -27,6 +27,15 @@ export type TDocument = {
     amount: string;
 };
 
+export type TDocumentType = {
+    typeId: string;
+    documentType: string;
+    classCodeDescription: string;
+    partyOneType: string;
+    partyTwoType: string;
+    partyThreeType: string;
+};
+
 export type TParty = {
     documentId: TDocumentId;
     name: string | undefined;
@@ -194,6 +203,7 @@ export type AcrisType =
     | TProperty
     | TPropertyType
     | TDocument
+    | TDocumentType
     | TParty
     | THousingMaintenanceCodeViolation
     | THpdJurisdictionData
