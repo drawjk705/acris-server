@@ -176,7 +176,7 @@ export const typeDefs = gql`
     type Document {
         id: ID!
         crfn: String
-        type: DocumentType
+        type: DocumentType!
         date: DateTime
         amount: String
         parties(name: String, address: AddressInput): [Party!]
