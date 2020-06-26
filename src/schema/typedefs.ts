@@ -22,7 +22,6 @@ export const typeDefs = gql`
     https://dev.socrata.com/foundry/data.cityofnewyork.us/8h5j-fqxa
     """
     type Property {
-        registrationId: Int
         bble: ID!
         borough: Borough!
         block: Int!

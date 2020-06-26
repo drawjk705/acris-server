@@ -68,17 +68,6 @@ export const resolvers: IResolvers = {
     },
 
     Property: {
-        registrationId: async (property: TProperty) => {
-            const jurisdictionData = await HpdJurisdictionData.getHpdJurisdictionData(
-                property
-            );
-
-            return (maybeReduceFirst(
-                jurisdictionData,
-                Reducers.reduceHpdJurisdictionData
-            ) as THpdJurisdictionData).registrationId;
-        },
-
         propertyType: async (property: TProperty) => {
             const propertyType = await Property.getPropertyTypeData(property);
             return Reducers.reducePropertyType(propertyType);
