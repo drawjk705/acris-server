@@ -37,7 +37,7 @@ export type TDocumentType = {
 };
 
 export type TParty = {
-    partType: String;
+    partyType: String;
     documentId: TDocumentId;
     name: string | undefined;
     address: TAddress;

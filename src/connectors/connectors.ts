@@ -25,12 +25,14 @@ type BbleProps = {
 };
 
 type getPropertyProps = {
+    documentId: string;
     streetNumber: string;
     streetName: string;
 } & BoroughBlockLotProps;
 
 export const Property = {
     getProperty: ({
+        documentId,
         streetNumber,
         streetName,
         borough,
@@ -45,6 +47,7 @@ export const Property = {
             .addSubclause({ borough })
             .addSubclause({ block })
             .addSubclause({ lot })
+            .addSubclause({ document_id: documentId })
             .stringifyClauses();
 
         return submitQuery(RESOURCES.RealPropertyLegals, {

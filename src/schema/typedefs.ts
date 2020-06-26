@@ -4,6 +4,7 @@ export const typeDefs = gql`
     # QUERY
     type Query {
         property(
+            documentId: String
             streetName: String
             streetNumber: String
             boroughBlockLot: BoroughBlockLotInput
@@ -198,7 +199,7 @@ export const typeDefs = gql`
     https://dev.socrata.com/foundry/data.cityofnewyork.us/636b-3b5g
     """
     type Party {
-        partType: String
+        partyType: String
         documentId: String
         name: String
         address: Address
@@ -242,9 +243,9 @@ export const typeDefs = gql`
     }
 
     input BoroughBlockLotInput {
-        borough: Borough!
-        block: Int!
-        lot: Int!
+        borough: Borough
+        block: Int
+        lot: Int
     }
 
     # ENUMS

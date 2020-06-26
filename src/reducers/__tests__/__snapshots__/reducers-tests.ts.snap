@@ -65,7 +65,7 @@ Object {
   },
   "documentId": "2018092100197002",
   "name": "FREEDOM MORTGAGE CORPORATION",
-  "partType": "2",
+  "partyType": "2",
 }
 `;
 

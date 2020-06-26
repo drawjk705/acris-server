@@ -31,11 +31,12 @@ export const resolvers: IResolvers = {
     Query: {
         property: async (
             _: any,
-            { streetNumber, streetName, boroughBlockLot }
+            { streetNumber, streetName, boroughBlockLot, documentId }
         ) => {
             const properties = await Property.getProperty({
                 streetNumber,
                 streetName,
+                documentId,
                 ...boroughBlockLot,
             });
 
