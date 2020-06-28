@@ -158,9 +158,11 @@ export const HousingMaintenanceCodeViolation = {
 };
 
 export const Document = {
-    getDocumentById: async (id: string) => {
+    getDocumentsByIds: async (ids: string[]) => {
         const query = createClause()
-            .addSubclause({ document_id: id })
+            .addSubclause({
+                document_id: ids,
+            })
             .stringifyClauses();
 
         return submitQuery(RESOURCES.RealPropertyMaster, {

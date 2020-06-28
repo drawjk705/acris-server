@@ -16,6 +16,7 @@ const typeMatches = {
     string: (variable: any) => typeof variable === 'string',
     number: (variable: any) => typeof variable === 'number',
     date: (variable: any) => variable instanceof Date,
+    array: (variable: any) => Array.isArray(variable),
 };
 
 const TypeMatcher = <T extends { [key: string]: (val: any) => boolean }>(
@@ -35,7 +36,7 @@ const TypeMatcher = <T extends { [key: string]: (val: any) => boolean }>(
 });
 
 type AddSubclauseObjProps = {
-    [key: string]: string | number | Date | undefined;
+    [key: string]: string | string[] | number | Date | undefined;
 };
 
 export const createClause = (existingClauses: Array<string> = []) => {
@@ -47,7 +48,7 @@ export const createClause = (existingClauses: Array<string> = []) => {
             relationship = ClauseRelationship.EQUAL
         ) => {
             newClauses.push(
-                Object.entries(obj).map(([field, value]) => {
+                ...Object.entries(obj).map(([field, value]) => {
                     return TypeMatcher(typeMatches)
                         .match(value)
                         .with({
@@ -60,8 +61,12 @@ export const createClause = (existingClauses: Array<string> = []) => {
                                 `date_trunc_ymd(${field})${relationship}"${(value as Date)
                                     .toISOString()
                                     .replace(/T.*$/, '')}"`,
+                            array: () =>
+                                `upper(${field}) in(${(value as string[])
+                                    .map((value) => `"${value.toUpperCase()}"`)
+                                    .join(',')})`,
                         });
-                })[0]
+                })
             );
 
             return clauseCreator;
@@ -114,3 +119,26 @@ export const reduceQuery = (query: TQuery): string =>
         )
         .filter((str) => !!str)
         .join('&');
+
+type TAccumulator = { [key: string]: any[] };
+export const groupPropertiesByAddress = (
+    properties: any[] = []
+): TAccumulator =>
+    properties.reduce((acc: TAccumulator, property) => {
+        if (
+            (property as Object).hasOwnProperty('street_number') &&
+            (property as Object).hasOwnProperty('street_name')
+        ) {
+            const key = `${property.street_number.toUpperCase()}_${property.street_name.toUpperCase()}`;
+
+            if ((acc as Object).hasOwnProperty(key)) {
+                acc[key].push(property);
+            } else {
+                acc[key] = [property];
+            }
+        } else {
+            acc[property.document_id] = [property];
+        }
+
+        return acc;
+    }, {});

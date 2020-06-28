@@ -30,7 +30,7 @@ export const typeDefs = gql`
         streetNumber: String
         streetName: String
         unit: String
-        document: Document
+        documents(documentIds: [String]): [Document]!
         housingMaintenanceCodeViolations(
             orderNumber: String
             inspectionDateBefore: DateTime

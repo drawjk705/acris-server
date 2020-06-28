@@ -2,9 +2,9 @@ import { Reducers } from '../reducers';
 import { mocks } from './mockObjects';
 
 describe('Reducers', () => {
-    describe('reduceProperty', () => {
+    describe('reduceProperties', () => {
         it('reduces correctly', () => {
-            const property = Reducers.reduceProperty(mocks.property);
+            const property = Reducers.reduceProperties(mocks.properties);
 
             expect(property).toMatchSnapshot();
         });

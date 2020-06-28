@@ -1,4 +1,9 @@
-import { reduceQuery, createClause, ClauseSeparator } from '../utils';
+import {
+    reduceQuery,
+    createClause,
+    ClauseSeparator,
+    groupPropertiesByAddress,
+} from '../utils';
 
 describe('utils', () => {
     describe('reduceQuery', () => {
@@ -137,6 +142,64 @@ describe('utils', () => {
             expect(combinedClauses).toBe(
                 '(upper(name)="BOB" and age=20) or (upper(name)="ROBERT" and age=21)'
             );
+        });
+    });
+
+    describe('groupPropertiesByAddress', () => {
+        it('groups properties by address when they have one, and document ID when they do not', () => {
+            const properties = [
+                {
+                    street_number: '123',
+                    street_name: 'Sesame Street',
+                    document_id: 'abc123',
+                    name: 'prop1',
+                },
+                {
+                    street_number: '123',
+                    street_name: 'Sesame Street',
+                    document_id: 'def456',
+                    name: 'prop2',
+                },
+                {
+                    document_id: 'ghi789',
+                    name: 'prop3',
+                },
+                {
+                    document_id: 'jkl1011',
+                    name: 'prop4',
+                },
+            ];
+
+            const result = groupPropertiesByAddress(properties);
+
+            expect(result).toStrictEqual({
+                ['123_SESAME STREET']: [
+                    {
+                        street_number: '123',
+                        street_name: 'Sesame Street',
+                        document_id: 'abc123',
+                        name: 'prop1',
+                    },
+                    {
+                        street_number: '123',
+                        street_name: 'Sesame Street',
+                        document_id: 'def456',
+                        name: 'prop2',
+                    },
+                ],
+                ghi789: [
+                    {
+                        document_id: 'ghi789',
+                        name: 'prop3',
+                    },
+                ],
+                jkl1011: [
+                    {
+                        document_id: 'jkl1011',
+                        name: 'prop4',
+                    },
+                ],
+            });
         });
     });
 });

@@ -1,5 +1,4 @@
 import { Borough } from './constants';
-export type TDocumentId = string;
 
 export type TProperty = {
     bble: string;
@@ -10,7 +9,7 @@ export type TProperty = {
     streetName: string;
     unit: string | undefined;
     propertyType: string;
-    documentId: TDocumentId;
+    documentIds: string[];
 };
 
 export type TPropertyType = {
@@ -20,7 +19,7 @@ export type TPropertyType = {
 };
 
 export type TDocument = {
-    id: TDocumentId;
+    id: string;
     crfn: string;
     type: string;
     date: string;
@@ -37,8 +36,8 @@ export type TDocumentType = {
 };
 
 export type TParty = {
-    partyType: String;
-    documentId: TDocumentId;
+    partyType: string;
+    documentId: string;
     name: string | undefined;
     address: TAddress;
 };

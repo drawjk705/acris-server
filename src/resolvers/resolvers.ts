@@ -21,9 +21,10 @@ import {
 } from '../connectors/connectors';
 import { Reducers } from '../reducers/reducers';
 import { Borough } from '../reducers/constants';
+import { groupPropertiesByAddress } from '../connectors/utils';
 
 const maybeReduceFirst = (
-    list: Array<object>,
+    list: object[],
     reducer: (obj: object) => AcrisType
 ) => (list.length > 0 ? reducer(list[0]) : {});
 
@@ -40,11 +41,15 @@ export const resolvers: IResolvers = {
                 ...boroughBlockLot,
             });
 
-            return properties.map(Reducers.reduceProperty);
+            const groupedProperties = groupPropertiesByAddress(properties);
+
+            return Object.values(groupedProperties).map(
+                Reducers.reduceProperties
+            );
         },
 
         document: async (_: any, { documentId }) => {
-            const document = await Document.getDocumentById(documentId);
+            const document = await Document.getDocumentsByIds([documentId]);
             return maybeReduceFirst(document, Reducers.reduceDocument);
         },
 
@@ -73,11 +78,11 @@ export const resolvers: IResolvers = {
             return Reducers.reducePropertyType(propertyType);
         },
 
-        document: async (property: TProperty) => {
-            const document = await Document.getDocumentById(
-                property.documentId
+        documents: async (property: TProperty, { documentIds }) => {
+            const documents = await Document.getDocumentsByIds(
+                documentIds ? documentIds : property.documentIds
             );
-            return maybeReduceFirst(document, Reducers.reduceDocument);
+            return documents.map(Reducers.reduceDocument);
         },
 
         housingMaintenanceCodeViolations: async (property: TProperty, args) => {
@@ -137,7 +142,9 @@ export const resolvers: IResolvers = {
 
     Party: {
         document: async (party: TParty) => {
-            const document = await Document.getDocumentById(party.documentId);
+            const document = await Document.getDocumentsByIds([
+                party.documentId,
+            ]);
             return maybeReduceFirst(document, Reducers.reduceDocument);
         },
     },

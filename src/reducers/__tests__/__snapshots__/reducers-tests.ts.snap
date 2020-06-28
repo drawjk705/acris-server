@@ -69,16 +69,19 @@ Object {
 }
 `;
 
-exports[`Reducers reduceProperty reduces correctly 1`] = `
+exports[`Reducers reduceProperties reduces correctly 1`] = `
 Object {
-  "bble": "3019600038",
-  "block": 1960,
-  "borough": 3,
-  "documentId": "2020050400791001",
-  "lot": 38,
-  "propertyType": "AP",
-  "streetName": "CLINTON AVENUE",
-  "streetNumber": "400",
+  "bble": "1005110001",
+  "block": 511,
+  "borough": 1,
+  "documentIds": Array [
+    "2016010401364001",
+    "2012091700987004",
+  ],
+  "lot": 1,
+  "propertyType": "OF",
+  "streetName": "BROADWAY",
+  "streetNumber": "568",
   "unit": undefined,
 }
 `;

@@ -29,7 +29,10 @@ const getBble = ({
 };
 
 export const Reducers = {
-    reduceProperty: (propertyObj: any = {}): TProperty => {
+    reduceProperties: (propertyObjs: any = [{}]): TProperty => {
+        const propertyObj = propertyObjs[0];
+        const documentIds = propertyObjs.map((obj: any) => obj.document_id);
+
         return {
             bble: getBble(propertyObj),
             borough: BOROUGHS_BY_ID[propertyObj.borough],
@@ -39,7 +42,7 @@ export const Reducers = {
             streetName: propertyObj.street_name,
             unit: propertyObj.unit,
             propertyType: propertyObj.property_type,
-            documentId: propertyObj.document_id,
+            documentIds: documentIds,
         };
     },
 

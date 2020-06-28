@@ -115,10 +115,13 @@ describe('Connectors', () => {
     describe('Document', () => {
         describe('getDocumentById', () => {
             it('calls submitQuery with query', async () => {
-                await Document.getDocumentById('documentId');
+                await Document.getDocumentsByIds([
+                    'documentId1',
+                    'documentId2',
+                ]);
 
                 expect(submitQuerySpy).toHaveBeenCalledWith('bnx9-e6tj', {
-                    where: 'upper(document_id)="DOCUMENTID"',
+                    where: 'upper(document_id) in("DOCUMENTID1","DOCUMENTID2")',
                 });
             });
         });
