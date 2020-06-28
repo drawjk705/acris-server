@@ -22,7 +22,10 @@ export type TDocument = {
     id: string;
     crfn: string;
     type: string;
-    date: string;
+    dateOnDocument: string;
+    legalDateRecorded: string;
+    dateModified: string;
+    goodThroughDate: string;
     amount: string;
 };
 

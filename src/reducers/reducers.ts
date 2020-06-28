@@ -87,7 +87,10 @@ export const Reducers = {
         id: documentObj.document_id,
         crfn: documentObj.crfn,
         type: documentObj.doc_type,
-        date: documentObj.document_date,
+        dateOnDocument: documentObj.document_date,
+        legalDateRecorded: documentObj.recorded_datetime,
+        dateModified: documentObj.modified_date,
+        goodThroughDate: documentObj.good_through_date,
         amount: documentObj.document_amt,
     }),
 

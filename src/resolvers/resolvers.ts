@@ -82,6 +82,9 @@ export const resolvers: IResolvers = {
             const documents = await Document.getDocumentsByIds(
                 documentIds ? documentIds : property.documentIds
             );
+
+            console.log({ documents });
+
             return documents.map(Reducers.reduceDocument);
         },
 

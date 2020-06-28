@@ -177,7 +177,10 @@ export const typeDefs = gql`
         id: ID!
         crfn: String
         type: DocumentType!
-        date: DateTime
+        dateOnDocument: DateTime
+        legalDateRecorded: DateTime
+        dateModified: DateTime
+        goodThroughDate: DateTime
         amount: String
         parties(name: String, address: AddressInput): [Party!]
     }
